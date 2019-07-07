@@ -11,6 +11,9 @@ class Person(models.Model):
     gender = models.CharField(max_length=1, choices=SHORT_GENDER, default='m')
     birth_date = models.DateField()
 
+    def __str__(self):
+        return '{} {}'.format(self.first_name, self.last_name)
+
 
 class Player(Person):
     POSITIONS = (
@@ -29,3 +32,6 @@ class Player(Person):
     )
     position = models.CharField(max_length=10, choices=POSITIONS, default='FB')
     shirt_number = models.IntegerField()
+
+    def __str__(self):
+        return '{} num {}'.format(super(Player, self).__str__(), self.shirt_number)
