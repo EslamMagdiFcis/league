@@ -4,7 +4,7 @@ from .models import Player
 
 
 class PlayerListSerializer(ModelSerializer):
-    url = HyperlinkedIdentityField(view_name='players-api:detail')
+    url = HyperlinkedIdentityField(view_name='players-api:detail-delete')
     team = SerializerMethodField()
 
     class Meta:
@@ -15,7 +15,7 @@ class PlayerListSerializer(ModelSerializer):
         return obj.team.name if obj.team else ''
 
 
-class PlayerCreateSerializer(ModelSerializer):
+class PlayerDetailSerializer(ModelSerializer):
     team = SerializerMethodField()
     gender = SerializerMethodField()
     position = SerializerMethodField()
@@ -48,7 +48,7 @@ class PlayerCreateSerializer(ModelSerializer):
         return ''
 
 
-class PlayerUpdateDeleteSerializer(ModelSerializer):
+class PlayerCreateUpdateDeleteSerializer(ModelSerializer):
 
     class Meta:
         model = Player
