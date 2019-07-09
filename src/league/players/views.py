@@ -1,11 +1,11 @@
 from django.db.models import Q
 
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 
-from .serializers import PlayerListSerializer, PlayerCreateSerializer
+from .serializers import PlayerListSerializer, PlayerCreateSerializer, PlayerUpdateDeleteSerializer
 from .pagination import PlayerLimitOffsetPagination
 from .models import Player
 
@@ -34,13 +34,13 @@ class PlayerCreateAPIView(CreateAPIView):
     permission_classes = [IsAuthenticated]
 
 
-class PlayerDetailUpdateDeleteAPIView(UpdateModelMixin, DestroyModelMixin, RetrieveAPIView):
+class PlayerDetailAPIView(RetrieveAPIView):
     queryset = Player.objects.all()
     serializer_class = PlayerCreateSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
 
-    def delete(self, request, *args, **kwargs):
-        return self.delete(request, *args, **kwargs)
+class PlayerUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Player.objects.all()
+    serializer_class = PlayerUpdateDeleteSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]

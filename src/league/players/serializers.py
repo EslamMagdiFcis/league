@@ -16,7 +16,9 @@ class PlayerListSerializer(ModelSerializer):
 
 
 class PlayerCreateSerializer(ModelSerializer):
-    # team = SerializerMethodField()
+    team = SerializerMethodField()
+    gender = SerializerMethodField()
+    position = SerializerMethodField()
 
     class Meta:
         model = Player
@@ -28,5 +30,32 @@ class PlayerCreateSerializer(ModelSerializer):
                   'shirt_number',
                   'team']
 
-    # def get_team(self, obj):
-    #     return obj.team.name
+    def get_team(self, obj):
+        return obj.team.name
+
+    def get_gender(self, obj):
+        for short_gender in obj.SHORT_GENDER:
+            if short_gender[0] == obj.gender:
+                return short_gender[1]
+
+        return ''
+
+    def get_position(self, obj):
+        for position in obj.POSITIONS:
+            if position[0] == obj.position:
+                return position[1]
+
+        return ''
+
+
+class PlayerUpdateDeleteSerializer(ModelSerializer):
+
+    class Meta:
+        model = Player
+        fields = ['first_name',
+                  'last_name',
+                  'gender',
+                  'birth_date',
+                  'position',
+                  'shirt_number',
+                  'team']
