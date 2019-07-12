@@ -22,4 +22,5 @@ urlpatterns = [
     path('api/trainers/', include('trainers.urls', namespace='trainers-api')),
     path('api/teams/', include('teams.urls', namespace='teams-api')),
     path('api/team-stats/', include('team_stats.urls', namespace='team-stats-api')),
+    path('api/matches/', include('matches.urls', namespace='matches-api')),
 ]
