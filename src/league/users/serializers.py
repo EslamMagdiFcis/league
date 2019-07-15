@@ -1,6 +1,8 @@
-from django.db.models import Q
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from rest_framework.serializers import CharField, EmailField, ModelSerializer, ValidationError
+
+import jwt
 
 User = get_user_model()
 
@@ -75,6 +77,7 @@ class UserLoginSerializer(ModelSerializer):
 
         user = User.objects.filter(email=email).distinct()
         user = user.exclude(email__isnull=True).exclude(email__iexact='')
+        print(user)
         if user.exists() and user.count() == 1:
             user_obj = user.first()
         else:
@@ -82,5 +85,7 @@ class UserLoginSerializer(ModelSerializer):
         if user_obj:
             if not user_obj.check_password(password):
                 raise ValidationError('Incorrect credentials please try again')
-        attrs['token'] = 'some random token'
+        # encoded_token = jwt.encode({'user_id': user_obj.id}, 'SECRET', algorithm='HS256')
+        encoded_token = jwt.encode({'user_id': user_obj.id}, settings.SECRET_KEY, algorithm='HS256')
+        attrs['token'] = encoded_token
         return attrs
