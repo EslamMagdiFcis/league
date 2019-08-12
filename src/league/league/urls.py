@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from rest_framework_jwt import views as jwt_views
+from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +27,6 @@ urlpatterns = [
     path('api/match/', include('matches.urls', namespace='matches-api')),
     path('api/user/', include('users.urls', namespace='users-api')),
 
-    path('api/token/', jwt_views.obtain_jwt_token, name='obtain-jwt-token'),
-    path('api/token/refresh/', jwt_views.refresh_jwt_token, name='refresh-jwt-token'),
+    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='obtain-jwt-token'),
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='refresh-jwt-token'),
 ]
