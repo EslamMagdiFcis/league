@@ -6,5 +6,5 @@ class PlayerPageNumberPagination(PageNumberPagination):
 
 
 class PlayerLimitOffsetPagination(LimitOffsetPagination):
-    default_limit = 4
-    max_limit = 4
+    default_limit = 10
+    max_limit = 10
