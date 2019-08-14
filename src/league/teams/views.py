@@ -4,6 +4,9 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework import status
+
+from rest_framework.response import Response
 
 from .serializers import TeamListSerializer, TeamCreateSerializer
 from players.pagination import PlayerLimitOffsetPagination
@@ -41,4 +44,6 @@ class TeamDetailUpdateDeleteAPIView(UpdateModelMixin, DestroyModelMixin, Retriev
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
-        return self.delete(request, *args, **kwargs)
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
