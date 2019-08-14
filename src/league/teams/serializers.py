@@ -1,14 +1,13 @@
-from rest_framework.serializers import HyperlinkedIdentityField, ModelSerializer
+from rest_framework.serializers import ModelSerializer
 
 from .models import Team
 
 
 class TeamListSerializer(ModelSerializer):
-    url = HyperlinkedIdentityField(view_name='teams-api:detail')
 
     class Meta:
         model = Team
-        fields = ['url', 'id', 'name']
+        fields = ['id', 'name', 'rank', 'points']
 
 
 class TeamCreateSerializer(ModelSerializer):
