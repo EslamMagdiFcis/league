@@ -1,16 +1,14 @@
-from rest_framework.serializers import ModelSerializer
-
 from .models import Team
+from mixins.DynamicFieldsModelSerializer import DynamicFieldsModelSerializer
 
 
-class TeamListSerializer(ModelSerializer):
-
+class TeamListSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = Team
-        fields = ['id', 'name', 'rank', 'points']
+        fields = ['name', 'rank', 'points', 'id']
 
 
-class TeamCreateSerializer(ModelSerializer):
+class TeamCreateSerializer(DynamicFieldsModelSerializer):
     class Meta:
         model = Team
         fields = ['name', 'rank', 'points']
