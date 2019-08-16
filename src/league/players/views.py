@@ -7,7 +7,7 @@ from rest_framework.generics import (CreateAPIView,
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 
-from .serializers import PlayerListSerializer, PlayerDetailSerializer 
+from .serializers import PlayerListSerializer, PlayerDetailSerializer
 from .pagination import PlayerLimitOffsetPagination
 from .models import Player
 

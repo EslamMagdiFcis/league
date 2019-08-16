@@ -1,11 +1,10 @@
 from django.db.models import Q
 
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 
-from .serializers import TrainerListSerializer, TrainerDetailSerializer, TrainerCreateUpdateDeleteSerializer
+from .serializers import TrainerListSerializer, TrainerDetailSerializer
 from players.pagination import PlayerLimitOffsetPagination
 from .models import Trainer
 
@@ -30,17 +29,11 @@ class TrainerListAPIView(ListAPIView):
 
 class TrainerCreateAPIView(CreateAPIView):
     queryset = Trainer.objects.all()
-    serializer_class = TrainerCreateUpdateDeleteSerializer
+    serializer_class = TrainerDetailSerializer
     permission_classes = [IsAuthenticated]
 
 
-class TrainerDetailAPIView(RetrieveAPIView):
+class TrainerDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Trainer.objects.all()
     serializer_class = TrainerDetailSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-
-class TrainerUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
-    queryset = Trainer.objects.all()
-    serializer_class = TrainerCreateUpdateDeleteSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
