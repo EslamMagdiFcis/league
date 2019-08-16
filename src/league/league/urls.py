@@ -20,7 +20,7 @@ from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/player/', include('players.urls', namespace='players-api')),
+    path('api/players/', include('players.urls', namespace='players-api')),
     path('api/trainer/', include('trainers.urls', namespace='trainers-api')),
     path('api/teams/', include('teams.urls', namespace='teams-api')),
     path('api/team-stats/', include('team_stats.urls', namespace='team-stats-api')),

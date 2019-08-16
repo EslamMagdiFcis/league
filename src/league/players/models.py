@@ -30,7 +30,6 @@ class Player(Person):
         ('WW', 'Wide Winger'),
         ('SF', 'Striker Forward'),
         ('CF', 'Centre Forward'),
-        ('CF', 'Centre Forward'),
     )
     position = models.CharField(max_length=10, choices=POSITIONS, default='FB')
     shirt_number = models.IntegerField()
