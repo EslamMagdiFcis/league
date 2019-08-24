@@ -2,15 +2,14 @@ from django.db.models import Q
 
 from rest_framework.generics import (CreateAPIView,
                                      ListAPIView,
-                                     RetrieveAPIView,
-                                     RetrieveUpdateAPIView,
+                                     RetrieveUpdateDestroyAPIView,
                                      RetrieveDestroyAPIView)
 
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 
-from .serializers import MatchListSerializer, MatchDetailSerializer, MatchCreateUpdateDeleteSerializer
+from .serializers import MatchListSerializer, MatchDetailSerializer
 from players.pagination import PlayerLimitOffsetPagination
 from .models import Match
 
@@ -36,17 +35,11 @@ class MatchListAPIView(ListAPIView):
 
 class MatchCreateAPIView(CreateAPIView):
     queryset = Match.objects.all()
-    serializer_class = MatchCreateUpdateDeleteSerializer
+    serializer_class = MatchDetailSerializer
     permission_classes = [IsAuthenticated]
 
 
-class MatchDetailDeleteAPIView(RetrieveDestroyAPIView):
+class MatchRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Match.objects.all()
     serializer_class = MatchDetailSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-
-
-class MatchUpdateAPIView(RetrieveUpdateAPIView):
-    queryset = Match.objects.all()
-    serializer_class = MatchCreateUpdateDeleteSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
