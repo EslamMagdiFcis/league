@@ -1,20 +1,17 @@
 from django.db.models import Q
 
-from rest_framework.generics import (CreateAPIView,
-                                     ListAPIView,
-                                     RetrieveUpdateDestroyAPIView)
-
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from .serializers import PlayerListSerializer, PlayerDetailSerializer
+from .serializers import PlayerSerializer
 from .pagination import PlayerLimitOffsetPagination
 from .models import Player
 
 
-class PlayerListAPIView(ListAPIView):
-    serializer_class = PlayerListSerializer
-    permission_classes = [AllowAny]
+class PlayerListCreateAPIView(ListCreateAPIView):
+    serializer_class = PlayerSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = PlayerLimitOffsetPagination
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['first_name', 'last_name', 'position', 'shirt_number']
@@ -30,13 +27,7 @@ class PlayerListAPIView(ListAPIView):
         return query_list
 
 
-class PlayerCreateAPIView(CreateAPIView):
-    queryset = Player.objects.all()
-    serializer_class = PlayerDetailSerializer
-    permission_classes = [IsAuthenticated]
-
-
 class PlayerDetailUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Player.objects.all()
-    serializer_class = PlayerDetailSerializer
+    serializer_class = PlayerSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]

@@ -1,11 +1,10 @@
 from django.urls import path
 
-from .views import PlayerCreateAPIView, PlayerDetailUpdateDeleteAPIView, PlayerListAPIView  # , PlayerUpdateAPIView
+from .views import PlayerDetailUpdateDeleteAPIView, PlayerListCreateAPIView
 
 app_name = 'players-api'
 
 urlpatterns = [
-    path('', PlayerListAPIView.as_view(), name='list'),
-    path('create/', PlayerCreateAPIView.as_view(), name='create'),
-    path('<int:pk>/', PlayerDetailUpdateDeleteAPIView.as_view(), name='detail-delete'),
+    path('', PlayerListCreateAPIView.as_view(), name='list-create'),
+    path('<int:pk>/', PlayerDetailUpdateDeleteAPIView.as_view(), name='detail-delete-update'),
 ]
