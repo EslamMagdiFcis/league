@@ -25,7 +25,7 @@ urlpatterns = [
     path('api/teams/', include('teams.urls', namespace='teams-api')),
     path('api/team-stats/', include('team_stats.urls', namespace='team-stats-api')),
     path('api/matches/', include('matches.urls', namespace='matches-api')),
-    path('api/user/', include('users.urls', namespace='users-api')),
+    path('api/users/', include('users.urls', namespace='users-api')),
 
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='obtain-jwt-token'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='refresh-jwt-token'),
