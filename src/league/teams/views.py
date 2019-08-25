@@ -1,21 +1,17 @@
 from django.db.models import Q
 
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
-from rest_framework import status
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from rest_framework.response import Response
-
-from .serializers import TeamListSerializer, TeamCreateSerializer
+from .serializers import TeamSerializer
 from players.pagination import PlayerLimitOffsetPagination
 from .models import Team
 
 
-class TeamListAPIView(ListAPIView):
-    serializer_class = TeamListSerializer
-    permission_classes = [AllowAny]
+class TeamListCreateAPIView(ListCreateAPIView):
+    serializer_class = TeamSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = PlayerLimitOffsetPagination
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['name']
@@ -29,21 +25,7 @@ class TeamListAPIView(ListAPIView):
         return query_list
 
 
-class TeamCreateAPIView(CreateAPIView):
+class TeamDetailUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Team.objects.all()
-    serializer_class = TeamCreateSerializer
-    permission_classes = [IsAuthenticated]
-
-
-class TeamDetailUpdateDeleteAPIView(UpdateModelMixin, DestroyModelMixin, RetrieveAPIView):
-    queryset = Team.objects.all()
-    serializer_class = TeamCreateSerializer
+    serializer_class = TeamSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.perform_destroy(instance)
-        return Response(status=status.HTTP_204_NO_CONTENT)
