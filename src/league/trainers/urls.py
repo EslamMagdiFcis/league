@@ -1,11 +1,10 @@
 from django.urls import path
 
-from .views import TrainerCreateAPIView, TrainerDetailAPIView, TrainerListAPIView
+from .views import TrainerDetailAPIView, TrainerListCreateAPIView
 
 app_name = 'trainers-api'
 
 urlpatterns = [
-    path('', TrainerListAPIView.as_view(), name='list'),
-    path('create/', TrainerCreateAPIView.as_view(), name='create'),
+    path('', TrainerListCreateAPIView.as_view(), name='list-create'),
     path('<int:pk>/', TrainerDetailAPIView.as_view(), name='detail'),
 ]
