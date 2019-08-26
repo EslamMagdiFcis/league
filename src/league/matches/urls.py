@@ -1,11 +1,10 @@
 from django.urls import path
 
-from .views import MatchCreateAPIView, MatchRetrieveUpdateDestroyAPIView, MatchListAPIView
+from .views import MatchRetrieveUpdateDestroyAPIView, MatchListCreateAPIView
 
 app_name = 'matches-api'
 
 urlpatterns = [
-    path('', MatchListAPIView.as_view(), name='list'),
-    path('create/', MatchCreateAPIView.as_view(), name='create'),
+    path('', MatchListCreateAPIView.as_view(), name='list-create'),
     path('<int:pk>/', MatchRetrieveUpdateDestroyAPIView.as_view(), name='detail-delete'),
 ]
