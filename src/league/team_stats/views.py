@@ -1,23 +1,18 @@
 from django.db.models import Q
 
-from rest_framework.generics import (CreateAPIView,
-                                     ListAPIView,
-                                     RetrieveUpdateDestroyAPIView,
-                                     RetrieveUpdateAPIView,
-                                     RetrieveDestroyAPIView)
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from .serializers import TeamStatsListSerializer, TeamStatsCreateUpdateDeleteSerializer
+from .serializers import TeamStatsSerializer
 from players.pagination import PlayerLimitOffsetPagination
 from .models import TeamStats
 
 
-class TeamStatsListAPIView(ListAPIView):
-    serializer_class = TeamStatsCreateUpdateDeleteSerializer
-    permission_classes = [AllowAny]
+class TeamStatsListCreateAPIView(ListCreateAPIView):
+    serializer_class = TeamStatsSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = PlayerLimitOffsetPagination
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['team']
@@ -31,13 +26,7 @@ class TeamStatsListAPIView(ListAPIView):
         return query_list
 
 
-class TeamStatsCreateAPIView(CreateAPIView):
-    queryset = TeamStats.objects.all()
-    serializer_class = TeamStatsCreateUpdateDeleteSerializer
-    permission_classes = [IsAuthenticated]
-
-
 class TeamStatsRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = TeamStats.objects.all()
-    serializer_class = TeamStatsCreateUpdateDeleteSerializer
+    serializer_class = TeamStatsSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]

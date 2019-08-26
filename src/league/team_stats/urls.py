@@ -1,11 +1,10 @@
 from django.urls import path
 
-from .views import TeamStatsCreateAPIView, TeamStatsRetrieveUpdateDestroyAPIView, TeamStatsListAPIView
+from .views import TeamStatsRetrieveUpdateDestroyAPIView, TeamStatsListCreateAPIView
 
 app_name = 'team-stats-api'
 
 urlpatterns = [
-    path('', TeamStatsListAPIView.as_view(), name='list'),
-    path('create/', TeamStatsCreateAPIView.as_view(), name='create'),
+    path('', TeamStatsListCreateAPIView.as_view(), name='list-create'),
     path('<int:pk>/', TeamStatsRetrieveUpdateDestroyAPIView.as_view(), name='detail-delete-update'),
 ]
